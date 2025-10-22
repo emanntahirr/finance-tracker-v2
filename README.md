@@ -114,14 +114,6 @@ The module for practicing investments, purchasing virtual stocks, and tracking t
 
 ---
 
-## Future Goals
-
-* Deploy full system using Docker + AWS
-* Add support for multiple currencies and savings goals
-* Integrate AI-driven financial insights (budget tips and investment risk analysis)
-
----
-
 ## Tech Stack
 
 | Category | Tools & Technologies |
@@ -142,6 +134,14 @@ Im currently refining:
 * the data visualization and analytics layer
 * full deployment pipeline (Docker, AWS, CI/CD)
 I plan to complete these as I balance studies.
+
+---
+
+## Future Goals
+
+* Deploy full system using Docker + AWS
+* Add support for multiple currencies and savings goals
+* Integrate AI-driven financial insights (budget tips and investment risk analysis)
 
 ---
 
