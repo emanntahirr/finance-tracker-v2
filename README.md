@@ -38,7 +38,6 @@ Users can save, spend, and simulate buying stocks, tracking their growth using *
 ### Database Schema (EDR Diagram)
 To illustrate the data relationship and persistence layer.
 ![ER Diagram showing the relationships between User, Transaction, and Investment entities](./screenshots/ERD.jpg)
-()
 
 #### Database Login Console
 *The console used to access the database during development.*
