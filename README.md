@@ -42,7 +42,7 @@ To illustrate the data relationship and persistence layer.
 
 #### Database Login Console
 *The console used to access the database during development.*
-![Screenshot of the H2 Console, showing the database login](../screenshots/h2-console-login.jpg)
+![Screenshot of the H2 Console, showing the database login](./screenshots/h2-console-login.jpg)
 
 ### API Integration
 * Frontend communicates securely with the backend using **Axios** and **JWT Bearer Tokens**
