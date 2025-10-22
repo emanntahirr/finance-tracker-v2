@@ -87,21 +87,21 @@ The secure login terminal and the dashboard entry screen.
 
 | Login Terminal | Start Page |
 | :---: | :---: |
-| ![Screenshot of the secure login page](../screenshots/login-terminal.jpg) | ![Screenshot of the space-themed main dashboard navigation](../screenshots/dashboard.jpg) |
+| ![Screenshot of the secure login page](./screenshots/login-terminal.jpg) | ![Screenshot of the space-themed main dashboard navigation](./screenshots/dashboard.jpg) |
 
 #### 2. Finance Tracker (Transactions View)
 The primary screen for monitoring finances, viewing balances, and logging income/expenses.
 
 | Transactions Overview | Logging Income/Expense |
 | :---: | :---: |
-| ![Screenshot of the Transactions tab showing total balance and recent transactions](../screenshots/transactionspage.jpg) | ![Screenshot of the form used to log new income or expense transactions](../screenshots/transacrionlog.jpg) |
+| ![Screenshot of the Transactions tab showing total balance and recent transactions](./screenshots/transactionspage.jpg) | ![Screenshot of the form used to log new income or expense transactions](./screenshots/transacrionlog.jpg) |
 
 #### 3. Investment Simulator
 The module for practicing investments, purchasing virtual stocks, and tracking the portfolio.
 
 | Investment Manager | Portfolio Summary |
 | :---: | :---: |
-| ![Screenshot of the Investment Portfolio Manager form](../screenshots/investmentspage.jpg) | ![Screenshot of the investment portfolio showing P/L for stocks like IBM, Tesla, and Apple](../screenshots/investmentslog.jpg) |
+| ![Screenshot of the Investment Portfolio Manager form](./screenshots/investmentspage.jpg) | ![Screenshot of the investment portfolio showing P/L for stocks like IBM, Tesla, and Apple](./screenshots/investmentslog.jpg) |
 
 ---
 
