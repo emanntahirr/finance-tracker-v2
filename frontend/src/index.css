@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* optional: global resets / custom styles */
+body {
+  @apply bg-black text-white;
+}
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+
+body {
+  font-family: 'Silkscreen';
+}
+@import "nes.css/css/nes.min.css";
