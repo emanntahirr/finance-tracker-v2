@@ -35,7 +35,7 @@ Users can save, spend, and simulate buying stocks, tracking their growth using *
 * Implemented algorithms for **balance calculation**, **growth projection**, and **investment performance visualization**
 * Focused on **time-efficient data retrieval** for real-time portfolio updates
 
-### Database Schema (EDR Diagram)
+### Database Schema (ERD Diagram)
 To illustrate the data relationship and persistence layer.
 ![ER Diagram showing the relationships between User, Transaction, and Investment entities](./screenshots/ERD.jpg)
 
