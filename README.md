@@ -1,6 +1,6 @@
 # 💰 Finance Tracker & Investment Simulator
 
-The **Finance Tracker & Investment Simulator** is a full-stack educational web app designed for **students and young adults** to learn budgeting, saving, and investing — all in one place.  
+The **Finance Tracker & Investment Simulator** is a full-stack educational web app designed for **students and young adults** to learn budgeting, saving, and investing, all in one place.  
 It combines **a finance tracker** (for managing daily expenses and savings) with **a virtual investment simulator**, where users can practise making investments without any real-world risk.
 
 ---
@@ -9,11 +9,11 @@ It combines **a finance tracker** (for managing daily expenses and savings) with
 
 When I started university, I realised how hard it was to manage money effectively. Most budgeting apps were either **too complex**, **not engaging**, or required **paid subscriptions**.  
 
-So I decided to build **my own finance app** — one that’s intuitive, visually engaging, and educational.
+So I decided to build **my own finance app**. One that’s intuitive, visually engaging, and educational.
 
 The idea grew into a system that doesn’t just track expenses but also helps users **learn how investments work**, safely and realistically.
 
-Users can save, spend, and simulate buying stocks, tracking their growth using **live market prices** pulled via API — without risking real money.
+Users can save, spend, and simulate buying stocks, tracking their growth using **live market prices** pulled via API without risking real money.
 
 ---
 
@@ -109,7 +109,6 @@ The module for practicing investments, purchasing virtual stocks, and tracking t
 * 🔹 **Investment Logic Enhancements** – buying/selling simulation, profit/loss tracking, and portfolio history
 * 🔹 **Advanced Data Visualization** – interactive charts for investment growth over time
 * 🔹 **Improved Transaction Categorization** – machine-learning-based expense grouping (experimental idea)
-* 🔹 **UI/UX Refinements** – Apple-style clean design and accessibility features
 * 🔹 **Performance Optimization** – caching, request batching, and pagination
 
 ---
@@ -118,13 +117,12 @@ The module for practicing investments, purchasing virtual stocks, and tracking t
 
 | Category | Tools & Technologies |
 | :--- | :--- |
-| **Frontend** | React.js, Axios, TailwindCSS |
+| **Frontend** | React.js, TailwindCSS |
 | **Backend** | Java, Spring Boot, Spring Security, REST APIs |
 | **Database** | MySQL, JPA/Hibernate |
-| **Auth** | JWT, BCrypt |
+| **Auth** | JWT |
 | **Data Visualization** | Recharts / Chart.js |
-| **Version Control** | Git & GitHub |
-| **Testing** | Postman, JUnit (planned) |
+| **Testing** | Postman |
 
 ---
 ## Known Technical Improvements / Next Steps
@@ -154,7 +152,7 @@ These should move into a dedicated `PortfolioAnalysisService` to keep entities l
 
 ### 5. Better Error Handling  
 Right now, different controllers handle errors differently.  
-I'm planning to add a global `@ControllerAdvice` exception handler so the API responds in a consistent, friendly way.
+I'm planning to add a global `@ControllerAdvice` exception handler so the API responds in a consistent way.
 
 ### 6. Improving MarketDataService  
 The market data layer works, but could be more resilient.  
@@ -175,27 +173,6 @@ I plan to complete these as I balance studies.
 
 ---
 
-## Future Goals
-
-* Deploy full system using Docker + AWS
-* Add support for multiple currencies and savings goals
-* Integrate AI-driven financial insights (budget tips and investment risk analysis)
-
----
-
 ## Setup & Run
 
-> **Note:** The app currently requires authentication and backend setup, so cloning it for use won’t work fully unless connected to your local backend with valid JWT setup. However, feel free to explore the codebase — it demonstrates secure backend integration, API design, and full-stack logic.
-
-If you’d still like to run it locally for testing:
-
-### Backend
-```bash
-# Backend
-cd finance-tracker
-mvn spring-boot:run
-
-### Backend
-```bash
-cd finance-tracker
-./mvnw spring-boot:run
+> **Note:** The app currently requires authentication and backend setup, so cloning it for use won’t work fully unless connected to your local backend with valid JWT setup. However, feel free to explore the codebase. It demonstrates secure backend integration, API design, and full-stack logic.
