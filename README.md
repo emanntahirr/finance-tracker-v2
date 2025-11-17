@@ -127,6 +127,44 @@ The module for practicing investments, purchasing virtual stocks, and tracking t
 | **Testing** | Postman, JUnit (planned) |
 
 ---
+## Known Technical Improvements / Next Steps
+
+This project is still evolving, and I'm actively improving the structure as I learn.  
+A few things I already know I want to refactor:
+
+### 1. Consistent API Responses  
+Some controllers return raw objects while others use `ResponseEntity`.  
+My plan is to unify everything under a consistent response format so the API feels cleaner and easier to consume.
+
+### 2. Clearer Separation of Concerns  
+A few service methods currently mix:
+- database access  
+- business rules  
+- data formatting  
+
+I'd like to separate these into proper layers (repository → service → formatter/analysis) to keep the logic easier to test and maintain.
+
+### 3. Removing Duplicate Logic  
+Fetching the current user and portfolio appears in multiple places.  
+This will be extracted into a shared component/utility so the logic only lives in one place.
+
+### 4. Moving Model Logic Out of Entities  
+Some models contain extra calculated fields or analysis logic.  
+These should move into a dedicated `PortfolioAnalysisService` to keep entities lightweight and focused.
+
+### 5. Better Error Handling  
+Right now, different controllers handle errors differently.  
+I'm planning to add a global `@ControllerAdvice` exception handler so the API responds in a consistent, friendly way.
+
+### 6. Improving MarketDataService  
+The market data layer works, but could be more resilient.  
+Next step: add caching + retry logic to reduce unnecessary API calls and handle outages more gracefully.
+
+---
+
+I’m continuously refactoring this codebase as I learn more about clean architecture and backend best practices.
+  
+---
 
 ## Next Steps
 Im currently refining:
