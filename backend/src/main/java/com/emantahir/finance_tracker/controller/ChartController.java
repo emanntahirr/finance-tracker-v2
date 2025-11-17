@@ -16,6 +16,10 @@ public class ChartController {
 
     private final ChartService chartService;
     
+    /**
+     * - ensure the controller cannot exist without its required dependency.
+     * - easier to mock during tests
+     */
     public ChartController(ChartService chartService) {
         this.chartService= chartService;
     }

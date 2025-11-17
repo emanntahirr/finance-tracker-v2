@@ -42,41 +42,59 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Register new user
+     * - prevents duplicate accounts using different credentials.
+     * - makes login and user lookup consistent
+     * default portoflio so we can
+     * - ensure frontend doesnt crash when displaying dashboard
+     * - users always start with at least one portfolio
+     */
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid RegisterRequest request) {
 
         if (userRepository.findByUsernameIgnoreCase(request.getUsername()).isPresent() ||
                 userRepository.findByEmail(request.getEmail()).isPresent()) {
+                    // BAD_REQUEST instead of CONFLICT: we want consistent 400-series responses.
             return new ResponseEntity<>("Username already exists", HttpStatus.BAD_REQUEST);
         }
 
         User newUser = new User();
         newUser.setUsername(request.getUsername());
         newUser.setEmail(request.getEmail());
-
+        // encoding passwords as they should never exist in database as plain text
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
 
         User savedUser = userRepository.save(newUser);
 
         Portfolio defaultPortfolio = new Portfolio();
         defaultPortfolio.setUser(savedUser);
-        defaultPortfolio.setName("Primary Portfolio");
+        defaultPortfolio.setName("Primary Portfolio"); // front end expects this
         portfolioRepository.save(defaultPortfolio);
 
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
 
+    /**
+     * Logs a user in and returns a JWT token.
+     * - Centralised authentication handled by Spring Security.
+     * - Ensures password comparison uses the configured encoder.
+     * - Prevents token generation for invalid credentials.
+     * - Frontend stores it for authenticated requests.
+     */
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest request) {
-
+        //authentication delegated to spring security.
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
                 )
         );
-        
+        // extract authenticated user details before token generation
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+         // JWT allows stateless sessions so no server-side session storage needed
         String token = jwtService.generateToken(userDetails);
 
         return ResponseEntity.ok(new LoginResponse(token));

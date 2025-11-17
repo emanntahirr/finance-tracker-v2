@@ -25,7 +25,7 @@ public class MarketDataService {
     }
 
     public Double getStockPrice(String symbol) {
-        final double FALLBACK_PRICE = 100.0; 
+        final double FALLBACK_PRICE = 100.0;
 
         if (symbol == null || symbol.trim().isEmpty()) {
             return FALLBACK_PRICE;
@@ -48,7 +48,7 @@ public class MarketDataService {
                 
                 if (quote != null && quote.containsKey("05. price")) {
                     String priceStr = (String) quote.get("05. price");
-                    
+                    // Zero or null means symbol wasn't valid or API throttled; fallback keeps app stable
                     if (priceStr == null || Double.parseDouble(priceStr) == 0.0) {
                         System.err.println("Stock symbol '" + symbol + "' not found or returned 0.0 price.");
                         return FALLBACK_PRICE;
@@ -69,7 +69,7 @@ public class MarketDataService {
 @SuppressWarnings("unchecked")
 public List<Double> getHistoricalReturns(String symbol) {
     final List<Double> fallbackReturns = List.of(0.01, -0.02, 0.015, -0.005, 0.02);
-
+    // fallback: ensures risk calculation still works even if API fails
     if (symbol == null || symbol.trim().isEmpty()) {
         return fallbackReturns;
     }
@@ -77,7 +77,7 @@ public List<Double> getHistoricalReturns(String symbol) {
     try {
         String url = apiUrl + "?function=TIME_SERIES_DAILY_ADJUSTED&symbol=" + symbol + "&apikey=" + apiKey;
         Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-
+        // If API returns no data, keep using our fallback to avoid crashing the feature
         if (response == null || !response.containsKey("Time Series (Daily)")) {
             System.err.println("Alpha Vantage API returned no data for symbol: " + symbol);
             return fallbackReturns;
@@ -85,7 +85,7 @@ public List<Double> getHistoricalReturns(String symbol) {
 
         Map<String, Object> timeSeries = (Map<String, Object>) response.get("Time Series (Daily)");
         List<Double> prices = new ArrayList<>();
-
+        // Extract close prices; limit to 30 days to avoid unnecessary overhead
         for (Object value : timeSeries.values()) {
             Map<String, Object> dailyData = (Map<String, Object>) value;
             String closeStr = (String) dailyData.get("4. close");

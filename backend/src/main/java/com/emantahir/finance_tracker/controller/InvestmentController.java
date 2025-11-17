@@ -59,16 +59,23 @@ public class InvestmentController {
         return ResponseEntity.ok(investmentService.getAssetAllocationSummary());
     }
 
+    /**
+     * - some investment may not havd calculated yet
+     * - if risk is missing compute on demand
+     * - error handling here will keep service layer clean.
+     */
     @GetMapping("/{id}/risk")
     public ResponseEntity<?> getInvestmentRisk(@PathVariable Long id) {
         try {
             Investment investment = investmentService.getInvestmentById(id);
             String risk = investment.getRiskLevel();
             if (risk == null || risk.isEmpty()) {
+                //backup to calculate risk if it hasnt been computed
                 risk = investmentService.calculateRiskForInvestment(investment);
         }
         return ResponseEntity.ok(Map.of("riskLevel", risk));
     } catch (RuntimeException e) {
+        // 404 instead of 400 as missing investment is a recourse-not-found problem not user entry problem
         return ResponseEntity.status(404).body(Map.of("error", "Investment not found"));
         }
     }

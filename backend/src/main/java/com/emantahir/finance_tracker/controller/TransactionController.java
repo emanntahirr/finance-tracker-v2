@@ -34,6 +34,9 @@ public class TransactionController {
         return service.getAllTransactions();
     }
 
+    /**
+     * centralised to prevent duplicate calculations across multiple frontend pages
+     */
     @GetMapping("/balance")
     public double getBalance() {
         return service.getBalance();

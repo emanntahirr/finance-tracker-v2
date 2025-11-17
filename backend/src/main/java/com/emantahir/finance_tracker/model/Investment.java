@@ -15,6 +15,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+/**
+ * Represents an investment entry belonging to a user.
+ * Seprated investments from transactions to allow special handling
+ */
 @Entity
 @Table(name = "investments")
 @JsonIgnoreProperties("portfolio")
@@ -54,19 +58,16 @@ public class Investment {
     @Transient
     private Double profitLoss;   // currentValue - totalCostBasis
 
-    // --- Relationships ---
-    
+    /**
+     * modelled as many-to-one so that we can support multiple investments per user
+     * while letting user-lever queries run
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "portfolio_id", nullable = false)
     private Portfolio portfolio;
     
-    // --- Constructors, Getters, and Setters ---
-
     public Investment() {}
-
-    // --- Calculated Getters ---
     
-    // Calculated total amount originally invested (persisted fields)
     public Double getTotalCostBasis() {
         return this.shares * this.purchasePricePerShare;
     }
@@ -132,6 +133,11 @@ public class Investment {
     }
     
         // --- Getters and Setters for Transient Fields ---
+        /**
+         * Sets live market price and updates dependent fields
+         * Since currentValue & profitloss depend on market price, recompute to keep logic
+         * consistent instead of having to repeat calculations.
+         */
     public void setCurrentPricePerShare(Double currentPricePerShare) {
         this.currentPricePerShare = currentPricePerShare;
         if (currentPricePerShare != null && this.shares != null && this.purchasePricePerShare != null) {

@@ -28,6 +28,7 @@ public class InvestmentService {
     private final PortfolioRepository portfolioRepository;
     private final SecurityUtil securityUtil;
 
+    // tracks global refresh time used for caching expensive API calls
     private final AtomicReference<Instant> lastRefreshTime = new AtomicReference<>(Instant.EPOCH);
     private final ConcurrentMap<String, Instant> userLastRefresh = new ConcurrentHashMap<>();
 
@@ -45,14 +46,19 @@ public class InvestmentService {
         this.portfolioRepository = portfolioRepository;
         this.securityUtil = securityUtil;
     }
-
+    /**
+     * useful for when frontend wants up to date data immediately
+     * dont need to wait for caching intervals
+     */
     public void forceRefresh() {
     String username = securityUtil.getCurrentUserUsername();
     refreshAllInvestments();
     userLastRefresh.put(username, Instant.now());
 }
 
-
+    /**
+     * helper to fetch the logged in users portfolio
+     */
     private Portfolio getCurrentUserPortfolio() {
         String username = securityUtil.getCurrentUserUsername();
 
@@ -64,7 +70,7 @@ public class InvestmentService {
     }
 
     public Investment createInvestment(Investment investment) {
-
+        // make sure symbol is consistent and uppercased
         String symbol = investment.getSymbol().toUpperCase();
         double shares = investment.getShares();
 
@@ -78,7 +84,8 @@ public class InvestmentService {
 
     public List<Investment> getAllInvestments() {
         List<Investment> investments = investmentRepository.findByPortfolio(getCurrentUserPortfolio());
-
+    // for loop to update price for each investment.
+    // if api fails, fall back to purchase price
     for (Investment inv : investments) {
         try {
             Double latestPrice = marketDataService.getStockPrice(inv.getSymbol()); // in case api fails
@@ -96,6 +103,7 @@ public class InvestmentService {
 }
 
     public Investment refreshInvestment(Long id) {
+        //refressh only investment selected by user
         Investment investment = investmentRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Investment not found"));
 
@@ -104,7 +112,7 @@ public class InvestmentService {
 
         return investmentRepository.save(investment);
     }
-
+// just for now reusing getAllInvestments() to refresh everything
     public List<Investment> refreshAllInvestments() {
         return getAllInvestments();
 }
@@ -173,6 +181,7 @@ public class InvestmentService {
     }
 
     public String calculateRiskForInvestment(Investment investment) {
+        // using historical returns to approximate volatility.
         List<Double> pastReturns = marketDataService.getHistoricalReturns(investment.getSymbol());
 
         double volatility =  RiskCalculator.calculateVolatility(pastReturns);
@@ -185,6 +194,7 @@ public class InvestmentService {
     }
     public Investment getInvestmentById(Long id) {
         Portfolio portfolio = getCurrentUserPortfolio();
+        // ensures user-specific access control at the data level.
 
         return investmentRepository.findById(id)
             .filter(inv -> inv.getPortfolio().getId().equals(portfolio.getId()))

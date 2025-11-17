@@ -36,8 +36,11 @@ public class TransactionService {
         this.portfolioRepository = portfolioRepository;
         this.securityUtil = securityUtil;
     }
-
-private List<Transaction> getAuthenticatedUserTransactions() {
+    /**
+     * Fetches transactions only for the currently authenticated user's portfolio.
+     * Keeps all transaction access scoped to the owner.
+     */
+    private List<Transaction> getAuthenticatedUserTransactions() {
     
     String username = securityUtil.getCurrentUserUsername();
 
@@ -62,7 +65,10 @@ private List<Transaction> getAuthenticatedUserTransactions() {
 
         return getAuthenticatedUserTransactions();
     }
-
+    /**
+     * Convenience method for repeatedly accessing the user's portfolio.
+     * Avoids duplicating lookup logic everywhere.
+     */
     private Portfolio getCurrentUserPortfolio() {
     String username = securityUtil.getCurrentUserUsername();
 
@@ -74,7 +80,10 @@ private List<Transaction> getAuthenticatedUserTransactions() {
         
     return userPortfolio;
 }
-
+/**
+     * Associates the transaction with the user's portfolio
+     * so multi-user separation stays intact.
+     */
 public Transaction addTransaction(Transaction transaction) {
     
     Portfolio userPortfolio = getCurrentUserPortfolio();
@@ -83,7 +92,10 @@ public Transaction addTransaction(Transaction transaction) {
     
     return repository.save(transaction);
 }
-
+    /**
+     * Balance = income + (negative) expenses.
+     * Uses DB aggregation for efficiency.
+     */
     public double getBalance() {
         Portfolio portfolio = getCurrentUserPortfolio();
 
@@ -93,7 +105,9 @@ public Transaction addTransaction(Transaction transaction) {
 
         return income + expenseRaw;
     }
-
+    /**
+     * Returns simple breakdown used across dashboard widgets.
+     */
     public Map<String, Double> getIncomeExpenseSummary() {
 
         Portfolio portfolio = getCurrentUserPortfolio();
@@ -111,7 +125,11 @@ public Transaction addTransaction(Transaction transaction) {
 
         return summary;
     }
-
+    
+    /**
+     * Filters only positive-amount transactions.
+     * Cleaner than running multiple repo queries.
+     */
     public List<Transaction> getIncomeTransactions() {
         List<Transaction> allTransactions = getAuthenticatedUserTransactions();
         List<Transaction> income = new ArrayList<>();
